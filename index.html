@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>50 Shades</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Lobster&family=Rubik+Moonrocks&family=Caveat&display=swap" rel="stylesheet">
+      
+    <style>
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            background-color: teal;
+        }
+
+        #page-wrapper {
+            background-image: url("https://www.dropbox.com/s/36boh8gfchua7w3/SummerJelly.jpeg?raw=1");
+            background-size: cover;
+            background-repeat: no-repeat;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #page-header {
+            margin: 15px;
+            padding: 6px;
+            text-align: center;
+            font-family: 'Rubik Moonrocks', cursive;
+            font-size: 72px;
+            color: #ff2400;
+        }
+
+        #page-footer {
+            height: 15%;
+            width: 60%;
+            background-image: url("https://www.dropbox.com/s/i1lrdaas9fs50rx/wicker-basket.png?raw=1");
+            background-size: cover;
+            background-repeat: no-repeat;
+            /* border: 1px solid red; */
+        }
+
+        #panel-wrapper {
+            width: 90%;
+            margin: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        #panel-header, #panel-footer, #panel-form {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            /* border: 1px dashed red; */
+        }
+
+        #left, #middle, #right {
+            width: 30%;
+            height: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            /* border: 1px dashed red; */
+        }
+
+        h1, h2 {
+            margin: 6px;
+            padding: 6px;
+            text-align: center;
+            font-family: "Caveat", cursive;
+            /*background-color: teal; */
+        }
+
+        .headline {
+            color: white;
+        }
+
+        .description {
+            color: black;
+        }
+
+        .button {
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0px 6px 6px #800040;
+            font-family: 'Patua One', sans-serif;
+            text-align: center;
+            color: #ffffff;
+            font-size: 12px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-decoration: none;
+            background: #008080;
+            padding: 3px 7px;
+            transition: all 0.1s ease-in-out;
+        }
+
+        .button:active {
+            transform: translateY(6px);
+            box-shadow: 0px 1px 0px #800040;
+        }
+
+        p {
+            width: 90%;
+            margin: 3px;
+            padding: 3px;
+            border-radius: 6px;
+            background-color: white;
+            color: lightgray;
+            font-family: "arial";
+            font-size: small;
+        }
+
+        p:focus {
+            outline: solid 2px red;
+            color: black;
+        }
+
+        .crunchable {  
+            animation-name: crunchMe;
+            animation-duration: 1.5s;
+            animation-iteration-count: 1;
+            animation-timing-function: ease-in-out;
+            animation-fill-forward: forwards;
+        }
+
+        @keyframes crunchMe {
+            0% {transform: translate(0px, 0px)}
+            100% {transform: translateY(240px) scale(0)}
+        }
+
+    </style>
+    <script>
+        // See: https://stackoverflow.com/questions/4847996/css-animation-onclick
+        function crunchIt(ele) {
+  
+            const profound = document.getElementById(ele);
+
+            // Add record to Airtable DB
+            sendMe(profound.innerHTML);
+
+            // Restart animation,
+            // Removing and adding back the class 'crunchable', as otherwise, the animation will only run once.
+            profound.classList.remove('crunchable')
+            void profound.offsetWidth; // Trigger reflow, here be magic
+            profound.classList.add('crunchable');
+
+            // Clear the text
+            profound.innerHTML = 'Start typing..';
+
+            // Debug
+            console.log(profound)
+        }
+
+        // See: https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript
+        const sendMe = async (note) => {
+            // REST API endpoint for Airtable 
+            const myEndPoint = 'https://api.airtable.com/v0/appl2QHVlTWpWmREu/Shades?api_key=keyBllo3QI9on8TlY';
+                
+            // Template for sending data to Airtable
+            // Pass 'note' as function arg. to embed in JSON payload
+            const myMessage = {
+                "records": [
+                {
+                    "fields": {
+                    "Notes": note
+                    }
+                }
+                ]
+            };
+  
+            // POST request to endpoint with 'fetch()'
+            const response = await fetch(myEndPoint, {
+                method: 'POST',
+                body: JSON.stringify(myMessage),
+                headers: {
+                'Content-Type': 'application/json'
+                } 
+            });
+  
+            // Result returned by endpoint
+            const result = await response.json();
+            console.log(result);
+        }
+
+        function typeIn() { 
+            const profound = document.getElementById("profound");
+            profound.innerHTML='';
+        
+        }
+    </script>
+
+</head>
+<body>
+   
+<div id="page-wrapper">
+    <div id="page-header">
+      50 Shades of Scarlet
+  </div>
+        <div id="panel-wrapper">
+          <div id="panel-header">
+            <h1 class="headline">Whisper Desires</h1>
+            <h1 class="headline">Tryst With a Twist</h1>
+            <h1 class="headline"> Wish Upon a Star</h1>
+          </div>
+          <div id="panel-form">
+            <div id="left">
+<p id="profound-left" contenteditable="true" onfocus="typeIn()">Start typing ..</p>
+              <input type="button" class="button" value="SEND" onclick="crunchIt('profound-left')">
+            </div>
+            <div id="middle">        
+<p id="profound-middle" contenteditable="true" onfocus="typeIn()">Email, phone ..</p>
+              <input type="button" class="button" value="SEND" onclick="crunchIt('profound-middle')">
+            </div>
+            <div id="right">
+<p id="profound-right" contenteditable="true" onfocus="typeIn()">Start typing ..</p>
+              <input type="button" class="button" value="SEND" onclick="crunchIt('profound-right')">
+            </div>      
+          </div>
+          <div id="panel-footer">
+            <h2 class="description">Share a fantasy for inclusion in 50 Shades</h2>
+            <h2 class="description">Want to connect with Slave? Send contact info.</h2>
+            <h2 class="description">Tell the Universe your sexiest wish in secret</h2>
+          </div>
+          
+        </div>
+        <div id="page-footer">
+        </div>
+          
+        </div>
+
+
+</body>
+</html>
